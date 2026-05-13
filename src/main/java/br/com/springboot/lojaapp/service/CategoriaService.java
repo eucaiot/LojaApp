@@ -8,11 +8,11 @@ import br.com.springboot.lojaapp.service.exception.ObjectNotFoundException;
 import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
-import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
 import java.util.Optional;
+import java.util.UUID;
 import java.util.stream.Collectors;
 
 import static org.springframework.data.domain.Sort.*;
@@ -26,7 +26,7 @@ public class CategoriaService {
         this.categoriaRepository = categoriaRepository;
     }
 
-    public Categoria buscarPorId(Integer id) {
+    public Categoria buscarPorId(UUID id) {
         Optional<Categoria> objeto = categoriaRepository.findById(id);
         return objeto.orElseThrow(() -> new ObjectNotFoundException("Categoria não encontrada. Id: " +
                 id + ". Tipo: " + Categoria.class.getName()));
@@ -48,23 +48,22 @@ public class CategoriaService {
    }
 
     public Categoria salvarCategoria(CategoriaDto categoria){
-        categoria.setId(null);
-        return categoriaRepository.save(toCategoria(categoria));
+        Categoria entidade = new Categoria(categoria.nome(), null);
+        return categoriaRepository.save(entidade);
     }
 
-    public void atualizarCategoria(CategoriaDto categoriaDto, Integer id){
-        categoriaDto.setId(id);
-        Categoria categoria = buscarPorId(categoriaDto.getId());
+    public void atualizarCategoria(CategoriaDto categoriaDto, UUID id){
+        Categoria categoria = buscarPorId(id);
         atualizaDadosCategoria(categoria, categoriaDto);
         categoriaRepository.save(categoria);
     }
 
     private void atualizaDadosCategoria(Categoria categoria, CategoriaDto categoriaDto) {
-        categoria.setNome(categoriaDto.getNome());
+        categoria.setNome(categoriaDto.nome());
     }
 
 
-    public void deletarCategoria(Integer id) {
+    public void deletarCategoria(UUID id) {
         buscarPorId(id);
         try{
             categoriaRepository.deleteById(id);
@@ -74,6 +73,6 @@ public class CategoriaService {
     }
 
     private Categoria toCategoria (CategoriaDto categoriaDto){
-        return new Categoria(categoriaDto.getNome(), categoriaDto.getId());
+        return new Categoria(categoriaDto.nome(), categoriaDto.id());
     }
 }

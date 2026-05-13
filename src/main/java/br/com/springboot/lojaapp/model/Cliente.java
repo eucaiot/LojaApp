@@ -1,6 +1,5 @@
 package br.com.springboot.lojaapp.model;
 
-import br.com.springboot.lojaapp.model.enums.TipoCliente;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 
 import jakarta.persistence.*;
@@ -12,13 +11,13 @@ public class Cliente implements Serializable {
     private static final long serialVersionUID = 1L;
 
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Integer id;
+    @GeneratedValue(strategy = GenerationType.UUID)
+    @Column(columnDefinition = "CHAR(36)", updatable = false, nullable = false)
+    private UUID id;
     private String nome;
     private String email;
-    @Column(unique = true)
-    private String cpf_Cnpj;
-    private Integer tipoCliente;
+    @Embedded
+    private Cpf cpf;
     @OneToMany(mappedBy = "cliente", cascade = CascadeType.ALL)
     private List<Endereco> enderecos = new ArrayList<>();
     @ElementCollection
@@ -31,19 +30,18 @@ public class Cliente implements Serializable {
     public Cliente() {
     }
 
-    public Cliente(Integer id, String nome, String email, String cpf_Cnpj, TipoCliente tipoCliente) {
+    public Cliente(UUID id, String nome, String email, Cpf cpf) {
         this.id = id;
         this.nome = nome;
         this.email = email;
-        this.cpf_Cnpj = cpf_Cnpj;
-        this.tipoCliente = tipoCliente.getCodigo();
+        this.cpf = cpf;
     }
 
-    public Integer getId() {
+    public UUID getId() {
         return id;
     }
 
-    public void setId(Integer id) {
+    public void setId(UUID id) {
         this.id = id;
     }
 
@@ -63,24 +61,12 @@ public class Cliente implements Serializable {
         this.email = email;
     }
 
-    public String getCpf_Cnpj() {
-        return cpf_Cnpj;
+    public Cpf getCpf() {
+        return cpf;
     }
 
-    public void setCpf_Cnpj(String cpf_Cnpj) {
-        this.cpf_Cnpj = cpf_Cnpj;
-    }
-
-    public TipoCliente getTipoCliente() {
-        return TipoCliente.toEnum(this.tipoCliente);
-    }
-
-    public void setTipoCliente(TipoCliente tipoCliente) {
-        if(tipoCliente != null) {
-            this.tipoCliente = tipoCliente.getCodigo();
-        } else {
-            this.tipoCliente = null;
-        }
+    public void setCpf(Cpf cpf) {
+        this.cpf = cpf;
     }
 
     public List<Endereco> getEnderecos() {

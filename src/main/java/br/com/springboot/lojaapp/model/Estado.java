@@ -7,14 +7,16 @@ import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
+import java.util.UUID;
 
 @Entity
 public class Estado implements Serializable {
     private static final long serialVersionUID = 1L;
 
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Integer id;
+    @GeneratedValue(strategy = GenerationType.UUID)
+    @Column(columnDefinition = "CHAR(36)", updatable = false, nullable = false)
+    private UUID id;
     private String nome;
     @OneToMany(mappedBy = "estado")
     @JsonIgnore
@@ -23,16 +25,16 @@ public class Estado implements Serializable {
     public Estado() {
     }
 
-    public Estado(Integer id, String nome) {
+    public Estado(UUID id, String nome) {
         this.id = id;
         this.nome = nome;
     }
 
-    public Integer getId() {
+    public UUID getId() {
         return id;
     }
 
-    public void setId(Integer id) {
+    public void setId(UUID id) {
         this.id = id;
     }
 

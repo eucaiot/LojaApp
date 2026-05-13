@@ -3,7 +3,6 @@ package br.com.springboot.lojaapp.service.validation;
 import br.com.springboot.lojaapp.controller.exception.CampoComErro;
 import br.com.springboot.lojaapp.dto.ClienteNewDto;
 import br.com.springboot.lojaapp.model.Cliente;
-import br.com.springboot.lojaapp.model.enums.TipoCliente;
 import br.com.springboot.lojaapp.repository.ClienteRepository;
 
 import jakarta.validation.ConstraintValidator;
@@ -29,19 +28,7 @@ public class InserirClienteValidator implements ConstraintValidator<InserirClien
 
         List<CampoComErro> erros = new ArrayList<>();
 
-        if(cliente.getTipoCliente().equals(TipoCliente.PESSOA_FISICA.getCodigo()) &&
-        !ValidaCpfCnpj.isValidCPF(cliente.getCpf_Cnpj())) {
-
-            erros.add(new CampoComErro("cpf_Cnpj", "CPF invalido"));
-        }
-
-        if(cliente.getTipoCliente().equals(TipoCliente.PESSOA_JURIDICA.getCodigo()) &&
-                !ValidaCpfCnpj.isValidCNPJ(cliente.getCpf_Cnpj())) {
-
-            erros.add(new CampoComErro("cpf_Cnpj", "CNPJ invalido"));
-        }
-
-        Cliente clienteEmail = clienteRepository.findByEmail(cliente.getEmail());
+        Cliente clienteEmail = clienteRepository.findByEmail(cliente.email());
 
         if(clienteEmail != null){
             erros.add(new CampoComErro("email", "E-mail já existente"));
@@ -56,5 +43,3 @@ public class InserirClienteValidator implements ConstraintValidator<InserirClien
         return erros.isEmpty();
     }
 }
-
-

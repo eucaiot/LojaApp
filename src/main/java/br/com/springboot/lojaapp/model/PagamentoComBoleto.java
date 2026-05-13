@@ -6,6 +6,7 @@ import com.fasterxml.jackson.annotation.JsonTypeName;
 
 import jakarta.persistence.Entity;
 import java.time.LocalDate;
+import java.util.UUID;
 
 @Entity
 @JsonTypeName("PagamentoComBoleto")
@@ -20,7 +21,7 @@ public class PagamentoComBoleto extends Pagamento {
     public PagamentoComBoleto() {
     }
 
-    public PagamentoComBoleto(Integer id, EstadoPagamento estado, Pedido pedido,
+    public PagamentoComBoleto(UUID id, EstadoPagamento estado, Pedido pedido,
                               LocalDate dataVencimento, LocalDate dataPagamento) {
 
         super(id, estado, pedido);

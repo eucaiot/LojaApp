@@ -11,8 +11,9 @@ public class Produto implements Serializable {
     private static final long serialVersionUID = 1L;
 
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Integer id;
+    @GeneratedValue(strategy = GenerationType.UUID)
+    @Column(columnDefinition = "CHAR(36)", updatable = false, nullable = false)
+    private UUID id;
     private String nome;
     private Double preco;
     @OneToMany(mappedBy = "id.produto")
@@ -26,7 +27,7 @@ public class Produto implements Serializable {
     private List<Categoria> categorias = new ArrayList<>();
 
 
-    public Produto(Integer id, String nome, Double preco) {
+    public Produto(UUID id, String nome, Double preco) {
         this.id = id;
         this.nome = nome;
         this.preco = preco;
@@ -36,11 +37,11 @@ public class Produto implements Serializable {
     public Produto() {
     }
 
-    public Integer getId() {
+    public UUID getId() {
         return id;
     }
 
-    public void setId(Integer id) {
+    public void setId(UUID id) {
         this.id = id;
     }
 

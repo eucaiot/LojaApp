@@ -15,6 +15,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 import java.time.LocalDateTime;
 import java.util.Optional;
+import java.util.UUID;
 
 @Service
 public class PedidoService {
@@ -38,7 +39,7 @@ public class PedidoService {
         this.itemPedidoRepository = itemPedidoRepository;
     }
 
-    public Pedido buscarPorId(Integer id){
+    public Pedido buscarPorId(UUID id){
         Optional<Pedido> pedido = pedidoRepository.findById(id);
         return  pedido.orElseThrow(() -> new ObjectNotFoundException("Pedido não encontrado. Id: " +
                 id + ". Tipo: " + Pedido.class.getName()));

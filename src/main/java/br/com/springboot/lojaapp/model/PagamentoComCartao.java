@@ -4,6 +4,7 @@ import br.com.springboot.lojaapp.model.enums.EstadoPagamento;
 import com.fasterxml.jackson.annotation.JsonTypeName;
 
 import jakarta.persistence.Entity;
+import java.util.UUID;
 
 @Entity
 @JsonTypeName("pagamentoComCartao")
@@ -16,7 +17,7 @@ public class PagamentoComCartao extends Pagamento {
 
     }
 
-    public PagamentoComCartao(Integer id, EstadoPagamento estadoPagamento, Pedido pedido,
+    public PagamentoComCartao(UUID id, EstadoPagamento estadoPagamento, Pedido pedido,
                               Integer numeroDeParcelas) {
 
         super(id, estadoPagamento, pedido);

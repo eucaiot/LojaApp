@@ -7,50 +7,20 @@ import org.hibernate.validator.constraints.Length;
 import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.NotEmpty;
 import java.io.Serializable;
+import java.util.UUID;
 
 @AtualizarCliente
-public class ClienteDto implements Serializable {
-    private static final long serialVersionUID = 1L;
-
-    private Integer id;
-    @NotEmpty(message = "campo obrigatorio")
-    @Length(min = 5, max = 120)
-    private String nome;
-    @NotEmpty(message = "campo obrigatorio")
-    @Email(message = "e-mail invalido")
-    private String email;
-
-    public ClienteDto() {
-    }
+public record ClienteDto(
+        UUID id,
+        @NotEmpty(message = "campo obrigatorio")
+        @Length(min = 5, max = 120)
+        String nome,
+        @NotEmpty(message = "campo obrigatorio")
+        @Email(message = "e-mail invalido")
+        String email
+) implements Serializable {
 
     public ClienteDto(Cliente cliente) {
-        this.id = cliente.getId();
-        this.nome = cliente.getNome();
-        this.email = cliente.getEmail();
+        this(cliente.getId(), cliente.getNome(), cliente.getEmail());
     }
-
-    public Integer getId() {
-        return id;
-    }
-
-    public void setId(Integer id) {
-        this.id = id;
-    }
-
-    public String getNome() {
-        return nome;
-    }
-
-    public void setNome(String nome) {
-        this.nome = nome;
-    }
-
-    public String getEmail() {
-        return email;
-    }
-
-    public void setEmail(String email) {
-        this.email = email;
-    }
-
 }

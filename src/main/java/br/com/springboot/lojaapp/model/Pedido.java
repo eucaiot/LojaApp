@@ -8,14 +8,16 @@ import java.time.LocalDateTime;
 import java.util.HashSet;
 import java.util.Objects;
 import java.util.Set;
+import java.util.UUID;
 
 @Entity
 public class Pedido implements Serializable {
     private static final long serialVersionUID = 1L;
 
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Integer id;
+    @GeneratedValue(strategy = GenerationType.UUID)
+    @Column(columnDefinition = "CHAR(36)", updatable = false, nullable = false)
+    private UUID id;
     @JsonFormat(pattern = "dd/MM/yyyy HH:mm")
     private LocalDateTime instante;
     @OneToOne(mappedBy = "pedido", cascade = CascadeType.ALL)
@@ -32,7 +34,7 @@ public class Pedido implements Serializable {
     public Pedido() {
     }
 
-    public Pedido(Integer id, LocalDateTime instante, Cliente cliente,
+    public Pedido(UUID id, LocalDateTime instante, Cliente cliente,
                   Endereco enderecoDeEntrega) {
         this.id = id;
         this.instante = instante;
@@ -40,11 +42,11 @@ public class Pedido implements Serializable {
         this.enderecoDeEntrega = enderecoDeEntrega;
     }
 
-    public Integer getId() {
+    public UUID getId() {
         return id;
     }
 
-    public void setId(Integer id) {
+    public void setId(UUID id) {
         this.id = id;
     }
 
