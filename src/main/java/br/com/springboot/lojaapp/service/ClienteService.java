@@ -15,7 +15,6 @@ import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Sort;
-import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import java.util.*;
@@ -102,7 +101,6 @@ public class ClienteService {
 
         cliente.setNome(clienteNewDto.getNome());
         cliente.setEmail(clienteNewDto.getEmail());
-        cliente.setSenha(new BCryptPasswordEncoder().encode(clienteNewDto.getSenha()));
         cliente.setCpf_Cnpj(clienteNewDto.getCpf_Cnpj());
         cliente.setTipoCliente(TipoCliente.toEnum(clienteNewDto.getTipoCliente()));
         cliente.getEnderecos().add(endereco);

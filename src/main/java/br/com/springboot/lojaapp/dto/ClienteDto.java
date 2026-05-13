@@ -4,8 +4,8 @@ import br.com.springboot.lojaapp.model.Cliente;
 import br.com.springboot.lojaapp.service.validation.AtualizarCliente;
 import org.hibernate.validator.constraints.Length;
 
-import javax.validation.constraints.Email;
-import javax.validation.constraints.NotEmpty;
+import jakarta.validation.constraints.Email;
+import jakarta.validation.constraints.NotEmpty;
 import java.io.Serializable;
 
 @AtualizarCliente

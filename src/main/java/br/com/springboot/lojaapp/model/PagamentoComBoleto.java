@@ -4,7 +4,7 @@ import br.com.springboot.lojaapp.model.enums.EstadoPagamento;
 import com.fasterxml.jackson.annotation.JsonFormat;
 import com.fasterxml.jackson.annotation.JsonTypeName;
 
-import javax.persistence.Entity;
+import jakarta.persistence.Entity;
 import java.time.LocalDate;
 
 @Entity

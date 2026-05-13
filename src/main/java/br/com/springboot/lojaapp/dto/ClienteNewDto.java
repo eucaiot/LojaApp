@@ -2,10 +2,10 @@ package br.com.springboot.lojaapp.dto;
 
 import br.com.springboot.lojaapp.service.validation.InserirCliente;
 
-import javax.validation.constraints.Email;
-import javax.validation.constraints.NotEmpty;
-import javax.validation.constraints.NotNull;
-import javax.validation.constraints.Size;
+import jakarta.validation.constraints.Email;
+import jakarta.validation.constraints.NotEmpty;
+import jakarta.validation.constraints.NotNull;
+import jakarta.validation.constraints.Size;
 import java.io.Serializable;
 
 @InserirCliente
@@ -18,8 +18,6 @@ public class ClienteNewDto implements Serializable {
     @NotEmpty(message = "Campo Obrigatorio")
     @Email(message = "e-mail inválido")
     private String email;
-    @NotEmpty(message = "preenchimento obrigatório")
-    private String senha;
     @NotEmpty(message = "preenchimento obrigatório")
     private String cpf_Cnpj;
     @NotNull(message = "campo obrigatório")
@@ -73,10 +71,6 @@ public class ClienteNewDto implements Serializable {
 
     public void setEmail(String email) {
         this.email = email;
-    }
-
-    public String getSenha() {
-        return senha;
     }
 
     public String getCpf_Cnpj() {

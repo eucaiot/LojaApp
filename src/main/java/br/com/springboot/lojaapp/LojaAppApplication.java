@@ -2,13 +2,11 @@ package br.com.springboot.lojaapp;
 
 import br.com.springboot.lojaapp.model.*;
 import br.com.springboot.lojaapp.model.enums.EstadoPagamento;
-import br.com.springboot.lojaapp.model.enums.PerfilUsuario;
 import br.com.springboot.lojaapp.model.enums.TipoCliente;
 import br.com.springboot.lojaapp.repository.*;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
-import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 
 import java.time.LocalDate;
 import java.time.LocalDateTime;
@@ -116,14 +114,12 @@ public class LojaAppApplication implements CommandLineRunner {
         cidadeRepository.saveAll(asList(cidade1, cidade2, cidade3));
 
         Cliente cliente1 = new Cliente(null, "Maria Silva", "maria@gmail.com",
-                new BCryptPasswordEncoder().encode("SenhaSecreta"), "12345678911", TipoCliente.PESSOA_FISICA);
+                "12345678911", TipoCliente.PESSOA_FISICA);
         cliente1.getTelefones().addAll(asList("1354157199", "13654237624"));
 
-        //Cliente com perfil ADMIN para teste
         Cliente cliente2 = new Cliente(null, "Caio Cesar", "caiocesar@gmail.com",
-                new BCryptPasswordEncoder().encode("SenhaSecreta"), "35444630087", TipoCliente.PESSOA_FISICA);
+                "35444630087", TipoCliente.PESSOA_FISICA);
         cliente1.getTelefones().addAll(asList("1375412345", "1367128381"));
-        cliente2.addPerfil(PerfilUsuario.ADMIN);
 
         Endereco endereco1 = new Endereco(null, "Rua Flores", 300, "apto 203",
                 "Jardim", "38220834", cliente1, cidade1);

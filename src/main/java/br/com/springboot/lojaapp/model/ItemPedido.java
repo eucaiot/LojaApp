@@ -2,8 +2,8 @@ package br.com.springboot.lojaapp.model;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 
-import javax.persistence.EmbeddedId;
-import javax.persistence.Entity;
+import jakarta.persistence.EmbeddedId;
+import jakarta.persistence.Entity;
 import java.io.Serializable;
 import java.util.Objects;
 

@@ -1,14 +1,11 @@
 package br.com.springboot.lojaapp.model;
 
-import br.com.springboot.lojaapp.model.enums.PerfilUsuario;
 import br.com.springboot.lojaapp.model.enums.TipoCliente;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 
-import javax.persistence.*;
+import jakarta.persistence.*;
 import java.io.Serializable;
-import java.lang.annotation.ElementType;
 import java.util.*;
-import java.util.stream.Collectors;
 
 @Entity
 public class Cliente implements Serializable {
@@ -19,8 +16,6 @@ public class Cliente implements Serializable {
     private Integer id;
     private String nome;
     private String email;
-    @JsonIgnore
-    private String senha;
     @Column(unique = true)
     private String cpf_Cnpj;
     private Integer tipoCliente;
@@ -29,9 +24,6 @@ public class Cliente implements Serializable {
     @ElementCollection
     @CollectionTable(name = "telefone")
     private Set<String> telefones = new HashSet<>();
-    @ElementCollection
-    @CollectionTable(name = "Perfis")
-    private Set<Integer> perfis = new HashSet<>();
     @OneToMany(mappedBy = "cliente")
     @JsonIgnore
     private List<Pedido> pedidos = new ArrayList<>();
@@ -39,14 +31,12 @@ public class Cliente implements Serializable {
     public Cliente() {
     }
 
-    public Cliente(Integer id, String nome, String email, String senha, String cpf_Cnpj, TipoCliente tipoCliente) {
+    public Cliente(Integer id, String nome, String email, String cpf_Cnpj, TipoCliente tipoCliente) {
         this.id = id;
         this.nome = nome;
         this.email = email;
-        this.senha = senha;
         this.cpf_Cnpj = cpf_Cnpj;
         this.tipoCliente = tipoCliente.getCodigo();
-        addPerfil(PerfilUsuario.CLIENTE);
     }
 
     public Integer getId() {
@@ -71,14 +61,6 @@ public class Cliente implements Serializable {
 
     public void setEmail(String email) {
         this.email = email;
-    }
-
-    public String getSenha() {
-        return senha;
-    }
-
-    public void setSenha(String senha) {
-        this.senha = senha;
     }
 
     public String getCpf_Cnpj() {
@@ -115,21 +97,6 @@ public class Cliente implements Serializable {
 
     public void setTelefones(Set<String> telefones) {
         this.telefones = telefones;
-    }
-
-    public void getPerfisUsuario() {
-        return ;
-    }
-
-    public void addPerfil(PerfilUsuario perfilUsuario){
-        this.perfis.add(perfilUsuario.getCodigo());
-    }
-
-    public Set<String> getPerfis() {
-        return this.perfis
-                .stream()
-                .map(p -> PerfilUsuario.toEnum(p).getAuthority())
-                .collect(Collectors.toSet());
     }
 
     public List<Pedido> getPedidos() {

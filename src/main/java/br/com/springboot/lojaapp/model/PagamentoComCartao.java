@@ -3,7 +3,7 @@ package br.com.springboot.lojaapp.model;
 import br.com.springboot.lojaapp.model.enums.EstadoPagamento;
 import com.fasterxml.jackson.annotation.JsonTypeName;
 
-import javax.persistence.Entity;
+import jakarta.persistence.Entity;
 
 @Entity
 @JsonTypeName("pagamentoComCartao")

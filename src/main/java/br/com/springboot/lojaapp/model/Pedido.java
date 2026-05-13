@@ -2,7 +2,7 @@ package br.com.springboot.lojaapp.model;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
 
-import javax.persistence.*;
+import jakarta.persistence.*;
 import java.io.Serializable;
 import java.time.LocalDateTime;
 import java.util.HashSet;
