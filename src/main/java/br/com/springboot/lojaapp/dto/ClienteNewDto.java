@@ -3,11 +3,12 @@ package br.com.springboot.lojaapp.dto;
 import br.com.springboot.lojaapp.service.validation.InserirCliente;
 import org.hibernate.validator.constraints.br.CPF;
 
+import jakarta.validation.Valid;
 import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.NotEmpty;
 import jakarta.validation.constraints.Size;
 import java.io.Serializable;
-import java.util.UUID;
+import java.util.List;
 
 @InserirCliente
 public record ClienteNewDto(
@@ -20,15 +21,9 @@ public record ClienteNewDto(
         @NotEmpty(message = "preenchimento obrigatório")
         @CPF(message = "CPF inválido")
         String cpf,
-        String logradouro,
-        Integer numero,
-        String complemento,
-        String bairro,
-        String cep,
+        @Valid
+        EnderecoNewDto endereco,
         @NotEmpty(message = "campo obrigatorio")
-        String telefone1,
-        String telefone2,
-        String telefone3,
-        UUID cidadeId
+        List<String> telefones
 ) implements Serializable {
 }

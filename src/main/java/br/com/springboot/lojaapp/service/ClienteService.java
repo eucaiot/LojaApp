@@ -2,6 +2,7 @@ package br.com.springboot.lojaapp.service;
 
 import br.com.springboot.lojaapp.dto.ClienteDto;
 import br.com.springboot.lojaapp.dto.ClienteNewDto;
+import br.com.springboot.lojaapp.dto.EnderecoNewDto;
 import br.com.springboot.lojaapp.model.Cidade;
 import br.com.springboot.lojaapp.model.Cliente;
 import br.com.springboot.lojaapp.model.Cpf;
@@ -85,33 +86,32 @@ public class ClienteService {
     }
 
     private Cliente toCliente(ClienteNewDto clienteNewDto){
-        Cidade cidade = new Cidade();
-        cidade.setId(clienteNewDto.cidadeId());
-
-        Endereco endereco = new Endereco();
-        endereco.setBairro(clienteNewDto.bairro());
-        endereco.setCep(clienteNewDto.cep());
-        endereco.setComplemento(clienteNewDto.complemento());
-        endereco.setLogradouro(clienteNewDto.logradouro());
-        endereco.setNumero(clienteNewDto.numero());
-        endereco.setCidade(cidade);
-
         Cliente cliente = new Cliente();
 
         cliente.setNome(clienteNewDto.nome());
         cliente.setEmail(clienteNewDto.email());
         cliente.setCpf(new Cpf(clienteNewDto.cpf()));
-        cliente.getEnderecos().add(endereco);
 
-        cliente.getTelefones().add(clienteNewDto.telefone1());
-        if(clienteNewDto.telefone2() != null) {
-            cliente.getTelefones().add(clienteNewDto.telefone2());
-        }
-        if(clienteNewDto.telefone3() != null) {
-            cliente.getTelefones().add(clienteNewDto.telefone3());
+        if (clienteNewDto.telefones() != null) {
+            cliente.getTelefones().addAll(clienteNewDto.telefones());
         }
 
-        endereco.setCliente(cliente);
+        EnderecoNewDto enderecoDto = clienteNewDto.endereco();
+        if (enderecoDto != null) {
+            Cidade cidade = new Cidade();
+            cidade.setId(enderecoDto.cidadeId());
+
+            Endereco endereco = new Endereco();
+            endereco.setLogradouro(enderecoDto.logradouro());
+            endereco.setNumero(enderecoDto.numero());
+            endereco.setComplemento(enderecoDto.complemento());
+            endereco.setBairro(enderecoDto.bairro());
+            endereco.setCep(enderecoDto.cep());
+            endereco.setCidade(cidade);
+            endereco.setCliente(cliente);
+
+            cliente.getEnderecos().add(endereco);
+        }
 
         return cliente;
     }

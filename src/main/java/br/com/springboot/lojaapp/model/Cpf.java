@@ -1,5 +1,6 @@
 package br.com.springboot.lojaapp.model;
 
+import br.com.caelum.stella.validation.CPFValidator;
 import jakarta.persistence.Column;
 import jakarta.persistence.Embeddable;
 import java.io.Serializable;
@@ -13,6 +14,7 @@ public record Cpf(
     public Cpf {
         if (valor != null) {
             valor = valor.replaceAll("\\D", "");
+            new CPFValidator().assertValid(valor);
         }
     }
 }

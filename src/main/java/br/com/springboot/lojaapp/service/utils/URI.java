@@ -5,7 +5,6 @@ import java.net.URLDecoder;
 import java.util.Arrays;
 import java.util.List;
 import java.util.UUID;
-import java.util.stream.Collectors;
 
 public class URI {
 
@@ -18,7 +17,7 @@ public class URI {
                 .map(String::trim)
                 .filter(part -> !part.isEmpty())
                 .map(UUID::fromString)
-                .collect(Collectors.toList());
+                .toList();
     }
 
     public static String decodeString(String nomeProduto) {
