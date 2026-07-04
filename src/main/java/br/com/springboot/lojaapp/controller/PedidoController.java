@@ -7,7 +7,6 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
 import java.net.URI;
-import java.util.UUID;
 
 @RestController
 @RequestMapping("/pedidos")
@@ -20,7 +19,7 @@ public class PedidoController {
     }
 
     @GetMapping("/{id}")
-    public ResponseEntity<Pedido> listarTodos(@PathVariable UUID id) {
+    public ResponseEntity<Pedido> listarTodos(@PathVariable Integer id) {
         Pedido pedido = pedidoService.buscarPorId(id);
         return ResponseEntity.ok(pedido);
     }

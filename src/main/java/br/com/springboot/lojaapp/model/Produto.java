@@ -2,7 +2,7 @@ package br.com.springboot.lojaapp.model;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 
-import jakarta.persistence.*;
+import javax.persistence.*;
 import java.io.Serializable;
 import java.util.*;
 
@@ -11,9 +11,8 @@ public class Produto implements Serializable {
     private static final long serialVersionUID = 1L;
 
     @Id
-    @GeneratedValue(strategy = GenerationType.UUID)
-    @Column(columnDefinition = "CHAR(36)", updatable = false, nullable = false)
-    private UUID id;
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Integer id;
     private String nome;
     private Double preco;
     @OneToMany(mappedBy = "id.produto")
@@ -27,7 +26,7 @@ public class Produto implements Serializable {
     private List<Categoria> categorias = new ArrayList<>();
 
 
-    public Produto(UUID id, String nome, Double preco) {
+    public Produto(Integer id, String nome, Double preco) {
         this.id = id;
         this.nome = nome;
         this.preco = preco;
@@ -37,11 +36,11 @@ public class Produto implements Serializable {
     public Produto() {
     }
 
-    public UUID getId() {
+    public Integer getId() {
         return id;
     }
 
-    public void setId(UUID id) {
+    public void setId(Integer id) {
         this.id = id;
     }
 

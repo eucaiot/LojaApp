@@ -14,7 +14,6 @@ import org.springframework.stereotype.Service;
 
 import java.util.List;
 import java.util.Optional;
-import java.util.UUID;
 
 @Service
 public class ProdutoService {
@@ -29,7 +28,7 @@ public class ProdutoService {
         this.categoriaRepository = categoriaRepository;
     }
 
-    public Produto buscarPorId(UUID id) {
+    public Produto buscarPorId(Integer id) {
         Optional<Produto> produto = produtoRepository.findById(id);
 
         return produto.orElseThrow(() -> new ObjectNotFoundException("Produto não encontrado. Id: " +
@@ -42,8 +41,8 @@ public class ProdutoService {
 
         String nomeProdutoDecodificado = URI.decodeString(nomeProduto);
 
-        List<UUID> categoriasIds = URI.CategoriasLista(categoria);
-        List<Categoria> categoriasEncontadas = categoriaRepository.findAllById(categoriasIds);
+        List<Integer> categoriasListaInteger = URI.CategoriasLista(categoria);
+        List<Categoria> categoriasEncontadas = categoriaRepository.findAllById(categoriasListaInteger);
 
         PageRequest paginacao = PageRequest.of(pagina, elementosPorPagina, Sort.Direction.valueOf(direcao),
                 ordem);

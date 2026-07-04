@@ -6,14 +6,14 @@ import br.com.springboot.lojaapp.model.Cliente;
 import br.com.springboot.lojaapp.service.ClienteService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
-import jakarta.validation.Valid;
+import javax.validation.Valid;
 import java.net.URI;
 import java.util.List;
-import java.util.UUID;
 
 @RestController
 @RequestMapping("/clientes")
@@ -23,7 +23,7 @@ public class ClienteController {
     private ClienteService clienteService;
 
     @GetMapping("/{id}")
-    public ResponseEntity<Cliente> buscaClientePorId(@PathVariable UUID id) {
+    public ResponseEntity<Cliente> buscaClientePorId(@PathVariable Integer id) {
         Cliente cliente = clienteService.buscarClientePorId(id);
 
         return ResponseEntity.ok(cliente);
@@ -62,7 +62,7 @@ public class ClienteController {
     }
 
     @PutMapping("/{id}")
-    public ResponseEntity<Cliente> atualizarCliente(@PathVariable UUID id,
+    public ResponseEntity<Cliente> atualizarCliente(@PathVariable Integer id,
                                                    @Valid @RequestBody ClienteDto clienteDto) {
 
         clienteService.atualizarCliente(clienteDto, id);
@@ -71,7 +71,7 @@ public class ClienteController {
     }
 
     @DeleteMapping("/{id}")
-    public ResponseEntity<String> deletarCategoria(@PathVariable UUID id){
+    public ResponseEntity<String> deletarCategoria(@PathVariable Integer id){
         clienteService.deletarCliente(id);
 
         return ResponseEntity.ok("Categoria Deletada");

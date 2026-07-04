@@ -4,10 +4,9 @@ import br.com.springboot.lojaapp.model.enums.EstadoPagamento;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonTypeInfo;
 
-import jakarta.persistence.*;
+import javax.persistence.*;
 import java.io.Serializable;
 import java.util.Objects;
-import java.util.UUID;
 
 @Entity
 @Inheritance(strategy = InheritanceType.JOINED)
@@ -16,29 +15,28 @@ public abstract class Pagamento implements Serializable {
     private static final long serialVersionUID = 1L;
 
     @Id
-    @Column(columnDefinition = "CHAR(36)", updatable = false, nullable = false)
-    private UUID id;
+    private Integer id;
     private Integer estadoPagamento;
     @MapsId
     @OneToOne
-    @JoinColumn(name = "pedido_id", columnDefinition = "CHAR(36)")
+    @JoinColumn(name = "pedido_id")
     @JsonIgnore
     private Pedido pedido;
 
     public Pagamento() {
     }
 
-    public Pagamento(UUID id, EstadoPagamento estado, Pedido pedido) {
+    public Pagamento(Integer id, EstadoPagamento estado, Pedido pedido) {
         this.id = id;
         this.estadoPagamento = estado.getCodigo();
         this.pedido = pedido;
     }
 
-    public UUID getId() {
+    public Integer getId() {
         return id;
     }
 
-    public void setId(UUID id) {
+    public void setId(Integer id) {
         this.id = id;
     }
 

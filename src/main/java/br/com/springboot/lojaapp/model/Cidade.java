@@ -3,19 +3,17 @@ package br.com.springboot.lojaapp.model;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonManagedReference;
 
-import jakarta.persistence.*;
+import javax.persistence.*;
 import java.io.Serializable;
 import java.util.Objects;
-import java.util.UUID;
 
 @Entity
 public class Cidade implements Serializable {
     private static final long serialVersionUID = 1L;
 
     @Id
-    @GeneratedValue(strategy = GenerationType.UUID)
-    @Column(columnDefinition = "CHAR(36)", updatable = false, nullable = false)
-    private UUID id;
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Integer id;
     private String nome;
     @ManyToOne
     @JoinColumn(name = "estado_id")
@@ -24,17 +22,17 @@ public class Cidade implements Serializable {
     public Cidade() {
     }
 
-    public Cidade(UUID id, String nome, Estado estado) {
+    public Cidade(Integer id, String nome, Estado estado) {
         this.id = id;
         this.nome = nome;
         this.estado = estado;
     }
 
-    public UUID getId() {
+    public Integer getId() {
         return id;
     }
 
-    public void setId(UUID id) {
+    public void setId(Integer id) {
         this.id = id;
     }
 

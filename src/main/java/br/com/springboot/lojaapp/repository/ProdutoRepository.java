@@ -11,10 +11,9 @@ import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
-import java.util.UUID;
 
 @Repository
-public interface ProdutoRepository extends JpaRepository<Produto, UUID> {
+public interface ProdutoRepository extends JpaRepository<Produto, Integer> {
 
     @Transactional(readOnly = true)
     @Query("SELECT DISTINCT p FROM Produto p " +

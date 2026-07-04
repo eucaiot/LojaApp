@@ -2,22 +2,20 @@ package br.com.springboot.lojaapp.model;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
 
-import jakarta.persistence.*;
+import javax.persistence.*;
 import java.io.Serializable;
 import java.time.LocalDateTime;
 import java.util.HashSet;
 import java.util.Objects;
 import java.util.Set;
-import java.util.UUID;
 
 @Entity
 public class Pedido implements Serializable {
     private static final long serialVersionUID = 1L;
 
     @Id
-    @GeneratedValue(strategy = GenerationType.UUID)
-    @Column(columnDefinition = "CHAR(36)", updatable = false, nullable = false)
-    private UUID id;
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Integer id;
     @JsonFormat(pattern = "dd/MM/yyyy HH:mm")
     private LocalDateTime instante;
     @OneToOne(mappedBy = "pedido", cascade = CascadeType.ALL)
@@ -34,7 +32,7 @@ public class Pedido implements Serializable {
     public Pedido() {
     }
 
-    public Pedido(UUID id, LocalDateTime instante, Cliente cliente,
+    public Pedido(Integer id, LocalDateTime instante, Cliente cliente,
                   Endereco enderecoDeEntrega) {
         this.id = id;
         this.instante = instante;
@@ -42,11 +40,11 @@ public class Pedido implements Serializable {
         this.enderecoDeEntrega = enderecoDeEntrega;
     }
 
-    public UUID getId() {
+    public Integer getId() {
         return id;
     }
 
-    public void setId(UUID id) {
+    public void setId(Integer id) {
         this.id = id;
     }
 

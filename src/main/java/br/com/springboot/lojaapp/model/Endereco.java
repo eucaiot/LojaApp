@@ -3,19 +3,17 @@ package br.com.springboot.lojaapp.model;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonManagedReference;
 
-import jakarta.persistence.*;
+import javax.persistence.*;
 import java.io.Serializable;
 import java.util.Objects;
-import java.util.UUID;
 
 @Entity
 public class Endereco implements Serializable {
     private static final long serialVersionUID = 1L;
 
     @Id
-    @GeneratedValue(strategy = GenerationType.UUID)
-    @Column(columnDefinition = "CHAR(36)", updatable = false, nullable = false)
-    private UUID id;
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Integer id;
     private String logradouro;
     private Integer numero;
     private String complemento;
@@ -32,7 +30,7 @@ public class Endereco implements Serializable {
     public Endereco() {
     }
 
-    public Endereco(UUID id, String logradouro, Integer numero, String complemento,
+    public Endereco(Integer id, String logradouro, Integer numero, String complemento,
                     String bairro, String cep, Cliente cliente, Cidade cidade) {
         this.id = id;
         this.logradouro = logradouro;
@@ -44,11 +42,11 @@ public class Endereco implements Serializable {
         this.cidade = cidade;
     }
 
-    public UUID getId() {
+    public Integer getId() {
         return id;
     }
 
-    public void setId(UUID id) {
+    public void setId(Integer id) {
         this.id = id;
     }
 
