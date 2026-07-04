@@ -9,9 +9,10 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
-import javax.validation.Valid;
+import jakarta.validation.Valid;
 import java.net.URI;
 import java.util.List;
+import java.util.UUID;
 
 @RestController
 @RequestMapping("/categorias")
@@ -21,7 +22,7 @@ public class CategoriaController {
     private CategoriaService categoriaService;
 
     @GetMapping("/{id}")
-    public ResponseEntity<Categoria> listarPorId(@PathVariable Integer id) {
+    public ResponseEntity<Categoria> listarPorId(@PathVariable UUID id) {
         Categoria categoria = categoriaService.buscarPorId(id);
         return ResponseEntity.ok().body(categoria);
     }
@@ -44,7 +45,7 @@ public class CategoriaController {
     }
 
     @PutMapping("/{id}")
-    public ResponseEntity<Categoria> atualizarCategoria(@PathVariable Integer id,
+    public ResponseEntity<Categoria> atualizarCategoria(@PathVariable UUID id,
                                                         @Valid @RequestBody CategoriaDto categoria) {
         categoriaService.atualizarCategoria(categoria, id);
 
@@ -52,7 +53,7 @@ public class CategoriaController {
     }
 
     @DeleteMapping("/{id}")
-    public ResponseEntity<String> deletarCategoria(@PathVariable Integer id) {
+    public ResponseEntity<String> deletarCategoria(@PathVariable UUID id) {
         categoriaService.deletarCategoria(id);
 
         return ResponseEntity.ok("Categoria Deletada");

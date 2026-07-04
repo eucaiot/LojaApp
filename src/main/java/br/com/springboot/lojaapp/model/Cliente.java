@@ -1,37 +1,28 @@
 package br.com.springboot.lojaapp.model;
 
-import br.com.springboot.lojaapp.model.enums.PerfilUsuario;
-import br.com.springboot.lojaapp.model.enums.TipoCliente;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 
-import javax.persistence.*;
+import jakarta.persistence.*;
 import java.io.Serializable;
-import java.lang.annotation.ElementType;
 import java.util.*;
-import java.util.stream.Collectors;
 
 @Entity
 public class Cliente implements Serializable {
     private static final long serialVersionUID = 1L;
 
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Integer id;
+    @GeneratedValue(strategy = GenerationType.UUID)
+    @Column(columnDefinition = "CHAR(36)", updatable = false, nullable = false)
+    private UUID id;
     private String nome;
     private String email;
-    @JsonIgnore
-    private String senha;
-    @Column(unique = true)
-    private String cpf_Cnpj;
-    private Integer tipoCliente;
+    @Embedded
+    private Cpf cpf;
     @OneToMany(mappedBy = "cliente", cascade = CascadeType.ALL)
     private List<Endereco> enderecos = new ArrayList<>();
     @ElementCollection
     @CollectionTable(name = "telefone")
     private Set<String> telefones = new HashSet<>();
-    @ElementCollection
-    @CollectionTable(name = "Perfis")
-    private Set<Integer> perfis = new HashSet<>();
     @OneToMany(mappedBy = "cliente")
     @JsonIgnore
     private List<Pedido> pedidos = new ArrayList<>();
@@ -39,21 +30,18 @@ public class Cliente implements Serializable {
     public Cliente() {
     }
 
-    public Cliente(Integer id, String nome, String email, String senha, String cpf_Cnpj, TipoCliente tipoCliente) {
+    public Cliente(UUID id, String nome, String email, Cpf cpf) {
         this.id = id;
         this.nome = nome;
         this.email = email;
-        this.senha = senha;
-        this.cpf_Cnpj = cpf_Cnpj;
-        this.tipoCliente = tipoCliente.getCodigo();
-        addPerfil(PerfilUsuario.CLIENTE);
+        this.cpf = cpf;
     }
 
-    public Integer getId() {
+    public UUID getId() {
         return id;
     }
 
-    public void setId(Integer id) {
+    public void setId(UUID id) {
         this.id = id;
     }
 
@@ -73,32 +61,12 @@ public class Cliente implements Serializable {
         this.email = email;
     }
 
-    public String getSenha() {
-        return senha;
+    public Cpf getCpf() {
+        return cpf;
     }
 
-    public void setSenha(String senha) {
-        this.senha = senha;
-    }
-
-    public String getCpf_Cnpj() {
-        return cpf_Cnpj;
-    }
-
-    public void setCpf_Cnpj(String cpf_Cnpj) {
-        this.cpf_Cnpj = cpf_Cnpj;
-    }
-
-    public TipoCliente getTipoCliente() {
-        return TipoCliente.toEnum(this.tipoCliente);
-    }
-
-    public void setTipoCliente(TipoCliente tipoCliente) {
-        if(tipoCliente != null) {
-            this.tipoCliente = tipoCliente.getCodigo();
-        } else {
-            this.tipoCliente = null;
-        }
+    public void setCpf(Cpf cpf) {
+        this.cpf = cpf;
     }
 
     public List<Endereco> getEnderecos() {
@@ -115,21 +83,6 @@ public class Cliente implements Serializable {
 
     public void setTelefones(Set<String> telefones) {
         this.telefones = telefones;
-    }
-
-    public void getPerfisUsuario() {
-        return ;
-    }
-
-    public void addPerfil(PerfilUsuario perfilUsuario){
-        this.perfis.add(perfilUsuario.getCodigo());
-    }
-
-    public Set<String> getPerfis() {
-        return this.perfis
-                .stream()
-                .map(p -> PerfilUsuario.toEnum(p).getAuthority())
-                .collect(Collectors.toSet());
     }
 
     public List<Pedido> getPedidos() {

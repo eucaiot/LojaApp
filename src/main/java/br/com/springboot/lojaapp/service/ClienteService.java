@@ -2,10 +2,11 @@ package br.com.springboot.lojaapp.service;
 
 import br.com.springboot.lojaapp.dto.ClienteDto;
 import br.com.springboot.lojaapp.dto.ClienteNewDto;
+import br.com.springboot.lojaapp.dto.EnderecoNewDto;
 import br.com.springboot.lojaapp.model.Cidade;
 import br.com.springboot.lojaapp.model.Cliente;
+import br.com.springboot.lojaapp.model.Cpf;
 import br.com.springboot.lojaapp.model.Endereco;
-import br.com.springboot.lojaapp.model.enums.TipoCliente;
 import br.com.springboot.lojaapp.repository.ClienteRepository;
 import br.com.springboot.lojaapp.repository.EnderecoRepository;
 import br.com.springboot.lojaapp.service.exception.DataIntegrityException;
@@ -15,7 +16,6 @@ import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Sort;
-import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import java.util.*;
@@ -29,7 +29,7 @@ public class ClienteService {
     @Autowired
     EnderecoRepository enderecoRepository;
 
-    public Cliente buscarClientePorId(Integer id) {
+    public Cliente buscarClientePorId(UUID id) {
         Optional<Cliente> cliente = clienteRepository.findById(id);
 
         return cliente.orElseThrow(() -> new ObjectNotFoundException("Cliente não encontrado. Id:" +
@@ -42,17 +42,16 @@ public class ClienteService {
         return clientes.stream().map(ClienteDto::new).collect(Collectors.toList());
     }
 
-    public void atualizarCliente(ClienteDto clienteDto, Integer id) {
-        clienteDto.setId(id);
-        Cliente cliente = buscarClientePorId(clienteDto.getId());
+    public void atualizarCliente(ClienteDto clienteDto, UUID id) {
+        Cliente cliente = buscarClientePorId(id);
         atualizaDadosCliente(cliente, clienteDto);
         clienteRepository.save(cliente);
 
     }
 
     private void atualizaDadosCliente(Cliente cliente, ClienteDto clienteDto) {
-        cliente.setNome(clienteDto.getNome());
-        cliente.setEmail(clienteDto.getEmail());
+        cliente.setNome(clienteDto.nome());
+        cliente.setEmail(clienteDto.email());
     }
 
     public Page<ClienteDto> buscarTodosComPaginacao(Integer pagina,
@@ -67,7 +66,7 @@ public class ClienteService {
         return clientes.map(ClienteDto::new);
     }
 
-    public void deletarCliente(Integer id) {
+    public void deletarCliente(UUID id) {
         buscarClientePorId(id);
         try{
             clienteRepository.deleteById(id);
@@ -87,35 +86,32 @@ public class ClienteService {
     }
 
     private Cliente toCliente(ClienteNewDto clienteNewDto){
-        Cidade cidade = new Cidade();
-        cidade.setId(clienteNewDto.getCidadeId());
-
-        Endereco endereco = new Endereco();
-        endereco.setBairro(clienteNewDto.getBairro());
-        endereco.setCep(clienteNewDto.getCep());
-        endereco.setComplemento(clienteNewDto.getComplemento());
-        endereco.setLogradouro(clienteNewDto.getLogradouro());
-        endereco.setNumero(clienteNewDto.getNumero());
-        endereco.setCidade(cidade);
-
         Cliente cliente = new Cliente();
 
-        cliente.setNome(clienteNewDto.getNome());
-        cliente.setEmail(clienteNewDto.getEmail());
-        cliente.setSenha(new BCryptPasswordEncoder().encode(clienteNewDto.getSenha()));
-        cliente.setCpf_Cnpj(clienteNewDto.getCpf_Cnpj());
-        cliente.setTipoCliente(TipoCliente.toEnum(clienteNewDto.getTipoCliente()));
-        cliente.getEnderecos().add(endereco);
+        cliente.setNome(clienteNewDto.nome());
+        cliente.setEmail(clienteNewDto.email());
+        cliente.setCpf(new Cpf(clienteNewDto.cpf()));
 
-        cliente.getTelefones().add(clienteNewDto.getTelefone1());
-        if(clienteNewDto.getTelefone2() != null) {
-            cliente.getTelefones().add(clienteNewDto.getTelefone2());
-        }
-        if(clienteNewDto.getTelefone3() != null) {
-            cliente.getTelefones().add(clienteNewDto.getTelefone3());
+        if (clienteNewDto.telefones() != null) {
+            cliente.getTelefones().addAll(clienteNewDto.telefones());
         }
 
-        endereco.setCliente(cliente);
+        EnderecoNewDto enderecoDto = clienteNewDto.endereco();
+        if (enderecoDto != null) {
+            Cidade cidade = new Cidade();
+            cidade.setId(enderecoDto.cidadeId());
+
+            Endereco endereco = new Endereco();
+            endereco.setLogradouro(enderecoDto.logradouro());
+            endereco.setNumero(enderecoDto.numero());
+            endereco.setComplemento(enderecoDto.complemento());
+            endereco.setBairro(enderecoDto.bairro());
+            endereco.setCep(enderecoDto.cep());
+            endereco.setCidade(cidade);
+            endereco.setCliente(cliente);
+
+            cliente.getEnderecos().add(endereco);
+        }
 
         return cliente;
     }

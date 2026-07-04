@@ -7,12 +7,13 @@ import br.com.springboot.lojaapp.repository.ClienteRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.servlet.HandlerMapping;
 
-import javax.servlet.http.HttpServletRequest;
-import javax.validation.ConstraintValidator;
-import javax.validation.ConstraintValidatorContext;
+import jakarta.servlet.http.HttpServletRequest;
+import jakarta.validation.ConstraintValidator;
+import jakarta.validation.ConstraintValidatorContext;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
+import java.util.UUID;
 
 public class AtualizarClienteValidator implements ConstraintValidator<AtualizarCliente, ClienteDto> {
 
@@ -39,9 +40,9 @@ public class AtualizarClienteValidator implements ConstraintValidator<AtualizarC
         Map<String, String> requisicao = (Map<String, String>) httpServletRequest
                 .getAttribute(HandlerMapping.URI_TEMPLATE_VARIABLES_ATTRIBUTE);
 
-        Integer id = Integer.parseInt(requisicao.get("id"));
+        UUID id = UUID.fromString(requisicao.get("id"));
 
-        Cliente clienteEmail = clienteRepository.findByEmail(cliente.getEmail());
+        Cliente clienteEmail = clienteRepository.findByEmail(cliente.email());
 
         if(clienteEmail != null && !clienteEmail.getId().equals(id)) {
             erros.add(new CampoComErro("email", "Email já existente"));
