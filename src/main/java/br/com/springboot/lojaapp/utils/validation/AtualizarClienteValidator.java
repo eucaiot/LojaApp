@@ -1,6 +1,6 @@
-package br.com.springboot.lojaapp.service.validation;
+package br.com.springboot.lojaapp.utils.validation;
 
-import br.com.springboot.lojaapp.controller.exception.CampoComErro;
+import br.com.springboot.lojaapp.exception.CampoComErro;
 import br.com.springboot.lojaapp.dto.ClienteDto;
 import br.com.springboot.lojaapp.model.Cliente;
 import br.com.springboot.lojaapp.repository.ClienteRepository;

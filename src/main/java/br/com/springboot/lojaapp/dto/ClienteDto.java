@@ -1,7 +1,7 @@
 package br.com.springboot.lojaapp.dto;
 
 import br.com.springboot.lojaapp.model.Cliente;
-import br.com.springboot.lojaapp.service.validation.AtualizarCliente;
+import br.com.springboot.lojaapp.utils.validation.AtualizarCliente;
 import org.hibernate.validator.constraints.Length;
 
 import jakarta.validation.constraints.Email;

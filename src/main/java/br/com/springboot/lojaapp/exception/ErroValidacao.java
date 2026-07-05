@@ -1,4 +1,4 @@
-package br.com.springboot.lojaapp.controller.exception;
+package br.com.springboot.lojaapp.exception;
 
 import java.time.LocalTime;
 import java.util.ArrayList;

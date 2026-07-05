@@ -1,4 +1,4 @@
-package br.com.springboot.lojaapp.service.validation;
+package br.com.springboot.lojaapp.utils.validation;
 
 import jakarta.validation.Constraint;
 import jakarta.validation.Payload;

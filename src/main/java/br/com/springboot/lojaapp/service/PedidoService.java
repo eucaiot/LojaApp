@@ -8,8 +8,7 @@ import br.com.springboot.lojaapp.model.enums.EstadoPagamento;
 import br.com.springboot.lojaapp.repository.ItemPedidoRepository;
 import br.com.springboot.lojaapp.repository.PagamentoRepository;
 import br.com.springboot.lojaapp.repository.PedidoRepositoty;
-import br.com.springboot.lojaapp.repository.ProdutoRepository;
-import br.com.springboot.lojaapp.service.exception.ObjectNotFoundException;
+import br.com.springboot.lojaapp.exception.ObjectNotFoundException;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 

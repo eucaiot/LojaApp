@@ -1,4 +1,4 @@
-package br.com.springboot.lojaapp.service.validation;
+package br.com.springboot.lojaapp.utils.validation;
 
 import java.lang.annotation.ElementType;
 import java.lang.annotation.Retention;

@@ -1,4 +1,4 @@
-package br.com.springboot.lojaapp.service.utils;
+package br.com.springboot.lojaapp.utils;
 
 import java.io.UnsupportedEncodingException;
 import java.net.URLDecoder;

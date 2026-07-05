@@ -1,4 +1,4 @@
-package br.com.springboot.lojaapp.service.exception;
+package br.com.springboot.lojaapp.exception;
 
 public class DataIntegrityException extends RuntimeException{
     private static final long serialVersionUID = 1L;

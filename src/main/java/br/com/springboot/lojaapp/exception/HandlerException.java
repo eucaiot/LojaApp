@@ -1,7 +1,5 @@
-package br.com.springboot.lojaapp.controller.exception;
+package br.com.springboot.lojaapp.exception;
 
-import br.com.springboot.lojaapp.service.exception.DataIntegrityException;
-import br.com.springboot.lojaapp.service.exception.ObjectNotFoundException;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.MethodArgumentNotValidException;
@@ -12,7 +10,7 @@ import jakarta.servlet.http.HttpServletRequest;
 import java.time.LocalTime;
 
 @RestControllerAdvice
-public class HandlerExceptionController {
+public class HandlerException {
 
     @ExceptionHandler(ObjectNotFoundException.class)
     public ResponseEntity<ErroPadrao> objectNotFoundException(ObjectNotFoundException e, HttpServletRequest request) {

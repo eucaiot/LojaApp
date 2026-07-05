@@ -1,6 +1,6 @@
 package br.com.springboot.lojaapp.dto;
 
-import br.com.springboot.lojaapp.service.validation.InserirCliente;
+import br.com.springboot.lojaapp.utils.validation.InserirCliente;
 import org.hibernate.validator.constraints.br.CPF;
 
 import jakarta.validation.Valid;
