@@ -1,0 +1,73 @@
+package br.com.eucaiot.lojaapp.service;
+
+import br.com.eucaiot.lojaapp.model.ItemPedido;
+import br.com.eucaiot.lojaapp.model.PagamentoComBoleto;
+import br.com.eucaiot.lojaapp.model.Pedido;
+import br.com.eucaiot.lojaapp.model.Produto;
+import br.com.eucaiot.lojaapp.model.enums.EstadoPagamento;
+import br.com.eucaiot.lojaapp.repository.ItemPedidoRepository;
+import br.com.eucaiot.lojaapp.repository.PagamentoRepository;
+import br.com.eucaiot.lojaapp.repository.PedidoRepositoty;
+import br.com.eucaiot.lojaapp.exception.ObjectNotFoundException;
+import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
+
+import java.time.LocalDateTime;
+import java.util.Optional;
+import java.util.UUID;
+
+@Service
+public class PedidoService {
+
+    private final PedidoRepositoty pedidoRepository;
+    private final PagamentoRepository pagamentoRepository;
+    private final PagamentoComBoletoService pagamentoComBoletoService;
+    private final ProdutoService produtoService;
+    private final ItemPedidoRepository itemPedidoRepository;
+
+    public PedidoService(PedidoRepositoty pedidoRepository,
+                         PagamentoRepository pagamentoRepository,
+                         PagamentoComBoletoService pagamentoComBoletoService,
+                         ProdutoService produtoService,
+                         ItemPedidoRepository itemPedidoRepository) {
+
+        this.pedidoRepository = pedidoRepository;
+        this.pagamentoRepository = pagamentoRepository;
+        this.pagamentoComBoletoService = pagamentoComBoletoService;
+        this.produtoService = produtoService;
+        this.itemPedidoRepository = itemPedidoRepository;
+    }
+
+    public Pedido buscarPorId(UUID id){
+        Optional<Pedido> pedido = pedidoRepository.findById(id);
+        return  pedido.orElseThrow(() -> new ObjectNotFoundException("Pedido não encontrado. Id: " +
+                id + ". Tipo: " + Pedido.class.getName()));
+    }
+
+    @Transactional
+    public Pedido salvarPedido(Pedido pedido) {
+        pedido.setId(null);
+        pedido.setInstante(LocalDateTime.now());
+        pedido.getPagamento().setEstado(EstadoPagamento.PENDENTE);
+        pedido.getPagamento().setPedido(pedido);
+
+        if(pedido.getPagamento() instanceof PagamentoComBoleto) {
+            PagamentoComBoleto pagamento = (PagamentoComBoleto) pedido.getPagamento();
+            pagamentoComBoletoService.atrubuirDataVencimento(pagamento, pedido.getInstante());
+        }
+
+        pedido = pedidoRepository.save(pedido);
+        pagamentoRepository.save(pedido.getPagamento());
+
+        for(ItemPedido itens : pedido.getItens()){
+            itens.setDesconto(0.0);
+            Produto produto = produtoService.buscarPorId(itens.getProduto().getId());
+            itens.setPreco(produto.getPreco());
+            itens.getId().setPedido(pedido);
+        }
+
+        itemPedidoRepository.saveAll(pedido.getItens());
+
+        return pedido;
+    }
+}
