@@ -46,3 +46,10 @@ jobs:
 
         - name: Create Pull Request
           uses: peter-evans/create-pull-request@v8
+
+        - name: Check outputs
+          if: ${{ steps.cpr.outputs.pull-request-number }}
+          run: |
+            echo "Pull Request Operation - ${{ steps.cpr.outputs.pull-request-operation }}"
+            echo "Pull Request URL - ${{ steps.cpr.outputs.pull-request-url }}"
+            echo "Pull Request Branch - ${{ steps.cpr.outputs.pull-request-branch }}"
