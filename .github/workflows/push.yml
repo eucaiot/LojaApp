@@ -27,6 +27,6 @@ jobs:
       runs-on: ubuntu-22.04
       steps:
         - name: Tests with Maven
-          run: mvn test
+          run: mvn clean install
 
         
