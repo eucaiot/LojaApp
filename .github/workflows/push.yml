@@ -1,0 +1,16 @@
+name: checkout
+
+on:
+    push: 
+        branches:
+          - feature/*
+
+jobs:
+    checkout:
+        runs-on: ubuntu-slim
+        steps:
+          - name: start
+            run: echo "Iniciando checkout..."
+
+          - name: checkout
+            uses: actions/checkout@v7
