@@ -8,11 +8,10 @@
         <version>3.3.5</version>
         <relativePath/> <!-- lookup parent from repository -->
     </parent>
-    <groupId>br.com.springboot</groupId>
+    <groupId>br.com.eucaiot</groupId>
     <artifactId>loja-app</artifactId>
     <version>1.0.0</version>
     <name>loja-app</name>
-    <description>Curso de SpringBoot</description>
 
     <properties>
         <java.version>21</java.version>
