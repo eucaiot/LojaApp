@@ -6,7 +6,7 @@ on:
           - feature/*
 
 jobs:
-    build-and-test:
+    Build:
       runs-on: ubuntu-22.04
       steps:
         - name: Checkout
@@ -19,18 +19,14 @@ jobs:
             java-version: '21'
         
         - run: java --version
-        - run: echo "Setup para Java 21 concluido"
 
         - name: Build with Maven
-          run: echo "Iniciando build"
-          
-        - run: mvn clean install
-          
-        -  run: echo "Build Concluido"
-    
-        - run: echo "Iniciando testes"
-        - name: Tests
+          run: mvn clean install
+
+    Test:
+      runs-on: ubuntu-22.04
+      steps:
+        - name: Tests with Maven
           run: mvn test
-        - run: echo "Build Concluido"
 
         
