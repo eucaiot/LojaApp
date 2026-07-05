@@ -33,6 +33,6 @@ jobs:
             java-version: '21'
 
         - run: java --version
-        - run: mvn clean install
+        - run: mvn test
 
         
