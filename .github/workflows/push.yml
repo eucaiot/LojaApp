@@ -27,6 +27,12 @@ jobs:
       runs-on: ubuntu-22.04
       steps:
         - name: Tests with Maven
-          run: mvn clean install
+          uses: actions/setup-java@v5
+          with:
+            distribution: 'corretto'
+            java-version: '21'
+
+        - run: java --version
+        - run: mvn clean install
 
         
